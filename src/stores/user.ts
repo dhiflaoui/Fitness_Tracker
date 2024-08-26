@@ -3,6 +3,7 @@ import type { Ref } from "vue";
 import { defineStore } from "pinia";
 import { useSupabaseClient } from "@/composables/supabase";
 import type { UserSession } from "@/types/user";
+import router from "@/router";
 
 export const useUserStore = defineStore("user", () => {
   const session: Ref<UserSession | null> = ref(null);
@@ -15,7 +16,15 @@ export const useUserStore = defineStore("user", () => {
     }
     if (typeof callback === "function") callback();
   };
-
+  const logout = async (callback?: Function): Promise<void> => {
+    const { error } = await useSupabaseClient.auth.signOut();
+    if (error) {
+      console.error("Logout error:", error?.message);
+      throw new Error("Logout failed");
+    }
+    router.push("/login");
+    if (typeof callback === "function") callback();
+  };
   const add_Profile = async (session: UserSession | any): Promise<void> => {
     try {
       const { error } = await useSupabaseClient
@@ -50,6 +59,7 @@ export const useUserStore = defineStore("user", () => {
   return {
     session,
     login,
+    logout,
     setUserSession,
     userIsLoggedIn,
     add_Profile,
