@@ -38,6 +38,12 @@ const routes = [
         component: () => import("../pages/Login.vue"),
         beforeEnter: loggedInGuard,
       },
+      {
+        path: "track",
+        name: "Track",
+        component: () => import("@/pages/Track.vue"),
+        beforeEnter: loginGuard,
+      },
     ],
   },
 ];

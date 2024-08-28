@@ -4,10 +4,8 @@
       Logout <v-icon icon="logout"></v-icon
     ></v-btn>
   </div> -->
-  <AuthMenu />
 </template>
 <script lang="ts" setup>
-import AuthMenu from "@/components/AuthMenu.vue";
 /* import { useUserStore } from "@/stores/user";
 const userStore = useUserStore(); */
 </script>
