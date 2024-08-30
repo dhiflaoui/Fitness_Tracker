@@ -5,6 +5,13 @@
       <v-app-bar-nav-icon @click="appStore.toggleDrawer()">
       </v-app-bar-nav-icon>
       <v-toolbar-title>💪 Fittest Pal - {{ pageTitle }}</v-toolbar-title>
+      <v-toolbar-items class="hidden-xs-only">
+        <!-- todo: change code here  the menu should be like this: https://codesandbox.io/p/sandbox/vuetify-top-navbar-frhu8?file=%2Fsrc%2FApp.vue%3A58%2C7-58%2C16 -->
+        <v-btn flat v-for="item in menuItems" :key="item.title">
+          <v-icon left dark>{{ item.icon }}</v-icon>
+          {{ item.title }}
+        </v-btn>
+      </v-toolbar-items>
     </v-app-bar>
     <v-main>
       <router-view />
@@ -33,7 +40,13 @@ import { useSupabaseClient } from "@/composables/supabase";
 import AuthMenu from "@/components/AuthMenu.vue";
 const userStore = useUserStore();
 const appStore = useAppStore();
-
+const menuItems = [
+  {
+    icon: "mdi-dumbbell",
+    title: "Track",
+    page: "/track",
+  },
+];
 const { pageTitle, dialog } = storeToRefs(appStore);
 const currentYear = new Date().getFullYear();
 onMounted(async () => {
