@@ -45,10 +45,12 @@ export const useFitnessStore = defineStore("fitness", () => {
         .insert({ created_at: date, profile_id })
         .select();
 
+      console.log("data: ", data);
       if (error) throw error;
       const workoutId = data?.[0].id;
       return workoutId;
     } catch (error: any) {
+      console.error("insertWorkout error message", error.message);
       return error;
     }
   };
@@ -69,9 +71,11 @@ export const useFitnessStore = defineStore("fitness", () => {
 
     if (session?.user?.id === undefined) return;
     const { id } = session.user;
+    console.log("id: ", id);
 
     try {
       const workoutId = await insertWorkout(workout.date, id);
+      console.log("workoutId: ", workoutId);
       if (workoutId) {
         const sets = [];
 
@@ -86,12 +90,14 @@ export const useFitnessStore = defineStore("fitness", () => {
             });
           }
         }
-        await insertSets(sets);
-        await getDashboard();
-        await getWorkouts({ order: "descending" });
+        console.log("sets added: ", sets);
+
+        /* await insertSets(sets); */
+        /* await getDashboard();
+        await getWorkouts({ order: "descending" }); */
       }
     } catch (error: any) {
-      console.error(error.message);
+      console.error("saveWorkout error message", error.message);
     }
   };
 

@@ -39,6 +39,16 @@
         </v-card>
       </v-dialog>
     </v-row>
+    <v-row class="mb-6">
+      <v-btn
+        block
+        size="x-large"
+        :disabled="!canSaveWorkout"
+        @click="saveWorkout"
+        v-if="selectedDate"
+        >Save workout</v-btn
+      >
+    </v-row>
   </v-container>
 </template>
 
@@ -47,7 +57,10 @@ import { ref, computed } from "vue";
 import type { Ref } from "vue";
 import type { Routine } from "@/types/fitness";
 import AddRoutine from "./AddRoutine.vue";
-
+import { useFitnessStore } from "@/stores/fitness";
+import { useAppStore } from "@/stores/app";
+const fitnessStore = useFitnessStore();
+const appStore = useAppStore();
 const showDialogDate: Ref<boolean> = ref(false);
 const selectedDate: Ref<any[] | undefined> = ref(undefined);
 const formattedDate: Ref<string> = computed(() => {
@@ -66,6 +79,31 @@ const showDialogRoutine: Ref<boolean> = ref(false);
 const addRoutineToExercise = (newRoutine: any) => {
   showDialogRoutine.value = false;
   routines.value.push(newRoutine);
+};
+const canSaveWorkout = computed(() => {
+  return routines.value.length > 0;
+});
+const reset = () => {
+  routines.value = [];
+  selectedDate.value = undefined;
+};
+const saveWorkout = () => {
+  if (selectedDate.value && routines.value?.length > 0) {
+    fitnessStore.saveWorkout({
+      date: selectedDate.value,
+      routines: routines.value,
+    });
+    appStore.showDialog({
+      title: "Success",
+      contents: "Workout saved successfully",
+    });
+    /* reset(); */
+  } else {
+    appStore.showDialog({
+      title: "Error",
+      contents: "Please select a date and add at least one routine",
+    });
+  }
 };
 </script>
 
