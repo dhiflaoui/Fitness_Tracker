@@ -64,7 +64,7 @@ export const useFitnessStore = defineStore("fitness", () => {
       return error;
     }
   };
-
+  /* TODO: add validation for workout date */
   const saveWorkout = async (workout: Workout): Promise<void> => {
     const userStore = useUserStore();
     const { session } = userStore;
@@ -133,7 +133,7 @@ export const useFitnessStore = defineStore("fitness", () => {
       console.error(error.message);
     }
   };
-
+  getWorkouts({ order: "descending" });
   const workoutsWithSets: Ref<WorkoutFromDatasource | []> = ref([]);
 
   const getWorkoutsWithSets = async (

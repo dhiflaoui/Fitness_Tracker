@@ -1,3 +1,4 @@
+<!-- TODO: display date when choose new routine in the top right of the screen -->
 <template>
   <v-container>
     <v-row class="align-center justify-space-between mb-6">
@@ -49,11 +50,19 @@
         >Save workout</v-btn
       >
     </v-row>
+    <exercise-grouping
+      :key="index"
+      v-for="(row, index) in routines"
+      :exercise-id="row.exercise || 'Unknown'"
+      :routines="row?.routines"
+      class="mb-6"
+    />
   </v-container>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import ExerciseGrouping from "./ExerciseGrouping.vue";
 import type { Ref } from "vue";
 import type { Routine } from "@/types/fitness";
 import AddRoutine from "./AddRoutine.vue";
