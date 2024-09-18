@@ -46,6 +46,11 @@ const menuItems = [
     title: "Track",
     page: "/track",
   },
+  {
+    icon: "mdi-chart-line",
+    title: "Graph",
+    page: "/graph",
+  },
 ];
 const { pageTitle, dialog } = storeToRefs(appStore);
 const currentYear = new Date().getFullYear();
